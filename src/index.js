@@ -7,3 +7,11 @@ const aaa = () => {
 };
 aaa();
 console.log(result);
+let promise = new Promise((resolve) => {
+    setTimeout(() => {
+        resolve(123);
+    }, 1000);
+});
+promise.then(res => {
+    console.log(res);
+});
