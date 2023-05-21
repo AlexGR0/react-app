@@ -2,7 +2,7 @@ const { join, resolve } = require("path");
 
 module.exports = {
   mode: "development",
-  entry: resolve("./src/index"),
+  entry: resolve("./src/index.ts"),
   output: {
     filename: "bundle.js",
     path: resolve(__dirname, "../dist"),

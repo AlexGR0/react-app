@@ -1,7 +1,8 @@
-function sum(a, b) {
-  return a + b;
+
+function sum(a: number, b: number) {
+    return a + b;
 };
-var result = sum(12, 23);
+var result: number = sum(12, 23);
 const aaa = () => {
     console.log('测试箭头函数');
 };
