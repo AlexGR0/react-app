@@ -8,6 +8,9 @@ const commonCssLoader = [
     options: {
       importLoaders: 1,
     },
+    modules: {
+      localIdentName: "[path][name]__[local]--[hash:5]",
+    },
   },
   {
     loader: "postcss-loader",
@@ -23,7 +26,7 @@ module.exports = {
   mode: "development",
   entry: resolve("./src/index.ts"),
   output: {
-    filename: "[name].js",
+    filename: "scripts/[name].bundle.js",
     path: resolve(__dirname, "../dist"),
   },
   module: {
@@ -88,6 +91,18 @@ module.exports = {
         ],
       },
     ],
+  },
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "../src"),
+      "@assets": resolve("../src/assets"),
+      "@components": resolve("../src/components"),
+      "@pages": resolve("../src/pages"),
+      "@routes": resolve("../src/routes"),
+      "@store": resolve("../src/store"),
+      "@utils": resolve("../src/utils"),
+    },
+    extensions: [".js", ".ts", ".tsx", ".jsx"],
   },
   plugins: [
     new MiniCssExtractPlugin({

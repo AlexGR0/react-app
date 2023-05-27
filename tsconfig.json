@@ -6,7 +6,7 @@
     "lib": ["es6", "dom"],
     "types": ["node"],
     "module": "commonjs",
-
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
@@ -16,19 +16,15 @@
     "noImplicitAny": true,
     "typeRoots": ["typings", "./node_modules/@types"],
     "baseUrl": "./src",
-    // "paths": {
-    //   "@components/*": ["components/*"],
-    //   "@utils/*": ["utils/*"],
-    //   "@assets/*": ["assets"],
-    //   "@models/*": ["models/*"],
-    //   "@routes/*": ["routes/*"],
-    //   "@pages/*": ["pages/*"],
-    //   "@tools/*": ["tools/*"],
-    //   "@recoil/*": ["recoil/*"],
-    //   "@hooks/*": ["hooks/*"],
-    //   "@services/*": ["services/*"],
-    //   "@api/*": ["api/*"]
-    // }
+    "paths": {
+      "@/*": ["/*"],
+      "@assets/*": ["assets"],
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"],
+      "@routes/*": ["routes/*"],
+      "@store/*": ["store/*"],
+      "@utils/*": ["utils/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "webpack-config"]
