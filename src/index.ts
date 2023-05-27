@@ -1,6 +1,7 @@
 import './index1.scss';
 import './aa.css';
 import './bb.less'
+import './abc.png';
 
 function sum(a: number, b: number) {
     return a + b;
