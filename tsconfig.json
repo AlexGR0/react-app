@@ -15,17 +15,17 @@
     "noImplicitThis": true,
     "noImplicitAny": true,
     "typeRoots": ["typings", "./node_modules/@types"],
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["/*"],
-      "@assets/*": ["assets"],
-      "@components/*": ["components/*"],
-      "@pages/*": ["pages/*"],
-      "@routes/*": ["routes/*"],
-      "@store/*": ["store/*"],
-      "@utils/*": ["utils/*"]
+      "@/*": ["src/*"],
+      "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@routes/*": ["src/routes/*"],
+      "@store/*": ["src/store/*"],
+      "@utils/*": ["src/utils/*"]
     }
   },
   "include": ["src"],
-  "exclude": ["node_modules", "webpack-config"]
+  "exclude": ["node_modules", "webpack-config", "dist"]
 }

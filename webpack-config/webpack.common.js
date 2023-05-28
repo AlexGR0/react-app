@@ -1,5 +1,6 @@
 const { resolve } = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const commonCssLoader = [
   MiniCssExtractPlugin.loader,
@@ -7,9 +8,6 @@ const commonCssLoader = [
     loader: "css-loader",
     options: {
       importLoaders: 1,
-    },
-    modules: {
-      localIdentName: "[path][name]__[local]--[hash:5]",
     },
   },
   {
@@ -24,9 +22,9 @@ const commonCssLoader = [
 
 module.exports = {
   mode: "development",
-  entry: resolve("./src/index.ts"),
+  entry: resolve("./src/index.tsx"),
   output: {
-    filename: "scripts/[name].bundle.js",
+    filename: "assets/js/[name].[chunkhash:8].js",
     path: resolve(__dirname, "../dist"),
   },
   module: {
@@ -108,5 +106,15 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "assets/styles/[name]-[contenthash:8].css",
     }),
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: resolve(__dirname, "../public/index.html"),
+    }),
   ],
+  devServer: {
+    historyApiFallback: true,
+    host: "0.0.0.0",
+    port: 9000,
+    static: resolve(__dirname, "../public/index.html"),
+  },
 };
