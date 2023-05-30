@@ -1,6 +1,10 @@
 const { resolve } = require("path");
+const { PROJECT_PATH, IS_DEV } = require("./config");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const WebpackBar = require("webpackbar");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const commonCssLoader = [
   MiniCssExtractPlugin.loader,
@@ -21,19 +25,21 @@ const commonCssLoader = [
 ];
 
 module.exports = {
-  mode: "development",
-  entry: resolve("./src/index.tsx"),
+  entry: resolve(PROJECT_PATH, "./src/index.tsx"),
   output: {
-    filename: "assets/js/[name].[chunkhash:8].js",
-    path: resolve(__dirname, "../dist"),
+    filename: IS_DEV
+      ? "assets/js/[name].js"
+      : "assets/js/[name]-[chunkhash:8].js",
+    path: resolve(PROJECT_PATH, "./dist"),
   },
   module: {
     rules: [
       {
         test: /\.(js|ts|jsx|tsx)$/,
+        loader: "babel-loader",
+        options: { cacheDirectory: true },
         include: [resolve("src")],
         exclude: /node_modules/,
-        loader: "babel-loader",
       },
       {
         test: /\.css$/,
@@ -60,7 +66,7 @@ module.exports = {
           {
             loader: "url-loader",
             options: {
-              limit: 1024,
+              limit: 1024 * 10,
               fallback: {
                 loader: "file-loader",
                 options: {
@@ -77,7 +83,7 @@ module.exports = {
           {
             loader: "url-loader",
             options: {
-              limit: 1024,
+              limit: 1024 * 10,
               fallback: {
                 loader: "file-loader",
                 options: {
@@ -90,31 +96,80 @@ module.exports = {
       },
     ],
   },
-  resolve: {
-    alias: {
-      "@": resolve(__dirname, "../src"),
-      "@assets": resolve("../src/assets"),
-      "@components": resolve("../src/components"),
-      "@pages": resolve("../src/pages"),
-      "@routes": resolve("../src/routes"),
-      "@store": resolve("../src/store"),
-      "@utils": resolve("../src/utils"),
-    },
-    extensions: [".js", ".ts", ".tsx", ".jsx"],
-  },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "assets/styles/[name]-[contenthash:8].css",
+      filename: IS_DEV
+        ? "assets/styles/[name].css"
+        : "assets/styles/[name]-[contenthash:8].css",
+      chunkFilename: IS_DEV
+        ? "assets/styles/[id].css"
+        : "assets/styles/[id]-[contenthash:8].css",
+      ignoreOrder: true,
     }),
     new HtmlWebpackPlugin({
       filename: "index.html",
-      template: resolve(__dirname, "../public/index.html"),
+      template: resolve(PROJECT_PATH, "./public/index.html"),
+      cache: false,
+      minify: IS_DEV
+        ? false
+        : {
+            minifyCSS: true,
+            minifyJS: true,
+            minifyURLs: true,
+            removeComments: true,
+            removeAttributeQuotes: true,
+            removeRedundantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkTypeAttributes: true,
+            collapseWhitespace: true,
+            collapseBooleanAttributes: true,
+            collapseInlineTagWhitespace: true,
+            useShortDoctype: true,
+          },
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: resolve(PROJECT_PATH, "./public"),
+          to: resolve(PROJECT_PATH, "./dist/static"),
+          force: true,
+          globOptions: {
+            dot: true,
+            gitignore: false,
+            ignore: ["*./index.html"],
+          },
+        },
+      ],
+    }),
+    new WebpackBar({
+      color: "orange",
+      name: "WORKING",
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        memoryLimit: 4096,
+        configFile: resolve(PROJECT_PATH, "./tsconfig.json"),
+        diagnosticOptions: {
+          syntactic: false,
+          semantic: false,
+          declaration: false,
+          global: false,
+        },
+      },
     }),
   ],
-  devServer: {
-    historyApiFallback: true,
-    host: "0.0.0.0",
-    port: 9000,
-    static: resolve(__dirname, "../public/index.html"),
+  resolve: {
+    alias: {
+      "@": resolve(PROJECT_PATH, "./src"),
+      "@assets": resolve(PROJECT_PATH, "./src/assets"),
+      "@components": resolve(PROJECT_PATH, "./src/components"),
+      "@pages": resolve(PROJECT_PATH, "./src/pages"),
+      "@routes": resolve(PROJECT_PATH, "./src/routes"),
+      "@store": resolve(PROJECT_PATH, "./src/store"),
+      "@styles": resolve(PROJECT_PATH, "./src/styles"),
+      "@utils": resolve(PROJECT_PATH, "./src/utils"),
+    },
+    extensions: [".js", ".ts", ".tsx", ".jsx", ".json"],
   },
+  devtool: IS_DEV ? "eval-cheap-module-source-map" : "cheap-module-source-map",
 };
