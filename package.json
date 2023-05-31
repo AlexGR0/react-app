@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack-config/webpack.dev.js",
     "build:dev": "cross-env NODE_ENV=development webpack --config ./webpack-config/webpack.dev.js",
-    "build:prod": "cross-env NODE_ENV=production webpack --config ./webpack-config/webpack.prod.js",
+    "build:prod": "cross-env NODE_ENV=production node ./webpack-config/build.js",
     "build:analy": "cross-env NODE_ENV=production webpack --config ./webpack-config/webpack.analy.js"
   },
   "keywords": [],
@@ -42,6 +42,7 @@
     "less-loader": "^11.1.0",
     "mini-css-extract-plugin": "^2.7.6",
     "node-sass": "^9.0.0",
+    "ora": "^5.4.1",
     "postcss-loader": "^7.3.1",
     "postcss-preset-env": "^8.4.1",
     "purgecss-webpack-plugin": "^4.1.3",

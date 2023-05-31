@@ -6,9 +6,13 @@ const { merge } = require("webpack-merge");
 module.exports = merge(webpackCommon, {
   mode: "development",
   devServer: {
+    // https: true,
+    client: {
+      overlay: true,
+    },
     host: HOST,
     port: PORT,
-    open: true,
+    open: false,
     hot: true,
     compress: true,
     // historyApiFallback: true,
@@ -20,5 +24,12 @@ module.exports = merge(webpackCommon, {
       },
     },
     static: resolve(PROJECT_PATH, "./public"),
+    // proxy: {
+    //   "/api/**": {
+    //     target: "https://...",
+    //     pathRewrite: { "^/api": "" },
+    //     changeOrigin: true,
+    //   },
+    // },
   },
 });
