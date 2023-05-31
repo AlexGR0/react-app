@@ -2,9 +2,10 @@ const { resolve } = require("path");
 const { PROJECT_PATH, IS_DEV } = require("./config");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const WebpackBar = require("webpackbar");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const nodeExternals = require("webpack-node-externals");
 
 const commonCssLoader = [
   MiniCssExtractPlugin.loader,
@@ -32,6 +33,9 @@ module.exports = {
       : "assets/js/[name]-[chunkhash:8].js",
     path: resolve(PROJECT_PATH, "./dist"),
   },
+  cache: { type: "filesystem" },
+  externalsPresets: { node: true },
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
@@ -127,16 +131,17 @@ module.exports = {
             useShortDoctype: true,
           },
     }),
-    new CopyPlugin({
+    new CopyWebpackPlugin({
       patterns: [
         {
           from: resolve(PROJECT_PATH, "./public"),
-          to: resolve(PROJECT_PATH, "./dist/static"),
+          to: "public",
           force: true,
+          noErrorOnMissing: true,
           globOptions: {
             dot: true,
             gitignore: false,
-            ignore: ["*./index.html"],
+            ignore: ["**/index.html"],
           },
         },
       ],
