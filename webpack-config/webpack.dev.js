@@ -1,10 +1,12 @@
-const { PORT, HOST, PROJECT_PATH } = require("./config");
-const webpackCommon = require("./webpack.common");
-const { resolve } = require("path");
-const { merge } = require("webpack-merge");
+const { PORT, HOST, PROJECT_PATH } = require('./config');
+const webpackCommon = require('./webpack.common');
+const { resolve } = require('path');
+const { merge } = require('webpack-merge');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = merge(webpackCommon, {
-  mode: "development",
+  mode: 'development',
+  plugins: [new ESLintPlugin({ extensions: ['js', 'ts'] })],
   devServer: {
     // https: true,
     client: {
@@ -17,13 +19,13 @@ module.exports = merge(webpackCommon, {
     compress: true,
     // historyApiFallback: true,
     client: {
-      logging: "error",
+      logging: 'error',
       overlay: {
         errors: true,
         warnings: false,
       },
     },
-    static: resolve(PROJECT_PATH, "./public"),
+    static: resolve(PROJECT_PATH, './public'),
     // proxy: {
     //   "/api/**": {
     //     target: "https://...",

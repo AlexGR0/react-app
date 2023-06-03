@@ -1,2 +1,4 @@
-node_modules/
-dist/
+.husky
+.eslintcache
+node_modules
+dist

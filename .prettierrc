@@ -1,0 +1,16 @@
+{
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "printWidth": 120,
+  "editor.tabSize": 2,
+  "semi": true,
+  "htmlWhitespaceSensitivity": "css",
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": {
+        "parser": "json"
+      }
+    }
+  ]
+}

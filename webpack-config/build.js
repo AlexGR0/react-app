@@ -1,14 +1,14 @@
-const ora = require("ora");
-const webpack = require("webpack");
+const ora = require('ora');
+const webpack = require('webpack');
 const env = process.env.NODE_ENV;
-const webpackProdConfig = require("./webpack.prod");
+const webpackProdConfig = require('./webpack.prod');
 const spinner = ora(`building for ${env}...`);
 
 const queue = [{ compile: webpack(webpackProdConfig), name: env }];
 
 function build() {
   if (!queue.length) {
-    console.log("打包完成");
+    console.log('打包完成');
     return;
   }
   const { compile, name } = queue.shift();
