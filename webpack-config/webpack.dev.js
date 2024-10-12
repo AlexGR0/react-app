@@ -9,17 +9,16 @@ module.exports = merge(webpackCommon, {
   plugins: [new ESLintPlugin({ extensions: ['js', 'ts'] })],
   devServer: {
     // https: true,
-    client: {
-      overlay: true,
-    },
     host: HOST,
     port: PORT,
     open: false,
     hot: true,
     compress: true,
-    // historyApiFallback: true,
+    historyApiFallback: {
+      // 处理history路由404问题
+      disableDotRule: true,
+    },
     client: {
-      logging: 'error',
       overlay: {
         errors: true,
         warnings: false,
