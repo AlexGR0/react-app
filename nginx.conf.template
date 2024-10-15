@@ -1,0 +1,100 @@
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+
+include /usr/share/nginx/modules/*.conf;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 4096;
+         
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+        
+    include /etc/nginx/conf.d/*.conf;
+    
+    server {
+      listen            80;
+      server_name       zpq.mobi www.zpq.mobi; 
+      root              /usr/share/nginx/html/public;
+    
+      # compression 
+      gzip on; 
+      gzip_min_length   2k;
+      gzip_buffers      4 16k;
+      gzip_http_version 1.0;
+      gzip_comp_level   3;
+      gzip_types        text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png application/json;
+      gzip_vary on;
+
+      # 配置 Header
+      add_header X-Frame-Options "SAMEORIGIN" always;
+      add_header X-XSS-Protection "1; mode=block" always;
+      add_header X-Content-Type-Options "nosniff" always;
+      add_header Cache-Control no-cache;
+
+      # 配置路由规则
+      location = /health/check {
+        default_type    application/json;
+        return          200 '{"success":"OK"}';
+      }
+
+      location ^~ /api {
+        proxy_pass              http://localhost:3000;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        Host $host:$server_port;
+      }
+
+      location / {
+        try_files $uri /index.html;
+      }
+    }
+
+    server {
+      listen       443 ssl;
+      server_name  zpq.mobi www.zpq.mobi;
+      root         /usr/share/nginx/html/public;
+
+      ssl_certificate      /etc/nginx/ssl/www.zpq.mobi.pem;
+      ssl_certificate_key  /etc/nginx/ssl/www.zpq.mobi.key;
+
+      ssl_session_cache    shared:SSL:1m;
+      ssl_session_timeout  5m;
+
+      # 配置加密套件
+      ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+      ssl_prefer_server_ciphers on;
+
+      # 配置路由规则
+      location = /health/check {
+        default_type    application/json;
+        return          200 '{"success":"OK"}';
+      }
+
+      location ^~ /api {
+        proxy_pass              http://localhost:3000;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        Host $host:$server_port;
+      }
+
+      location / {
+        try_files $uri /index.html;
+      }
+    }
+}

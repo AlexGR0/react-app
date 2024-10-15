@@ -7,6 +7,7 @@ const WebpackBar = require('webpackbar');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
+const isDevServer = process.env.WEBPACK_DEV_SERVER === 'true';
 const commonCssLoader = [
   MiniCssExtractPlugin.loader,
   {
@@ -32,8 +33,8 @@ module.exports = {
     path: resolve(PROJECT_PATH, './dist'),
   },
   cache: { type: 'filesystem' },
-  externalsPresets: { node: true },
-  externals: [nodeExternals()],
+  externalsPresets: isDevServer ? {} : { node: true },
+  externals: isDevServer ? [] : [nodeExternals()],
   module: {
     rules: [
       {
