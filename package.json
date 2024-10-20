@@ -7,7 +7,7 @@
     "server": "cross-env NODE_ENV=development WEBPACK_DEV_SERVER=true webpack-dev-server --config ./webpack-config/webpack.dev.js",
     "build:dev": "cross-env NODE_ENV=development webpack --config ./webpack-config/webpack.dev.js",
     "build:prod": "cross-env NODE_ENV=production node ./webpack-config/build.js",
-    "build:analy": "cross-env NODE_ENV=production webpack --config ./webpack-config/webpack.analy.js",
+    "analyze": "cross-env NODE_ENV=production webpack --config ./webpack-config/webpack.analy.js",
     "lint": "eslint src --cache --ext .js,.jsx,.vue,.ts,.tsx --ignore-pattern .gitignore",
     "lint:lint-staged": "lint-staged",
     "prepare": "husky install"
@@ -63,6 +63,7 @@
     "terser-webpack-plugin": "^5.3.9",
     "url-loader": "^4.1.1",
     "webpack": "^5.83.1",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.1",
     "webpack-dev-server": "^4.15.0",
     "webpack-merge": "^5.9.0",

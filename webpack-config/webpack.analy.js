@@ -1,7 +1,25 @@
 const prodConfig = require('./webpack.prod');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-const smp = new SpeedMeasurePlugin();
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { merge } = require('webpack-merge');
 
-// 预留合并空位加入自定义配置对比
-module.exports = smp.wrap(merge(prodConfig, {}));
+const smp = new SpeedMeasurePlugin();
+
+const analyzeConfig = {
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'server',
+      analyzerHost: '127.0.0.1',
+      analyzerPort: 8888,
+      reportFilename: 'report.html',
+      defaultSizes: 'parsed',
+      openAnalyzer: true,
+      generateStatsFile: false,
+      statsFilename: 'stats.json',
+      statsOptions: null,
+      logLevel: 'info',
+    }),
+  ],
+};
+
+module.exports = smp.wrap(merge(prodConfig, analyzeConfig));
