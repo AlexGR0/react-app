@@ -1,17 +1,14 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import PageLoading from '@components/common/PageLoading';
-import routes from '@routes/index';
+import { routes } from '@routes/index';
+import DynamicRouter from '@routes/utils';
 
 const AppRouter: React.FC = () => {
   return (
     <Router>
       <Suspense fallback={<PageLoading />}>
-        <Routes>
-          {routes.map((route, index) => {
-            return <Route key={index} path={route.path} element={route.element} />;
-          })}
-        </Routes>
+        <DynamicRouter routes={routes} />
       </Suspense>
     </Router>
   );

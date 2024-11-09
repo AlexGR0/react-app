@@ -1,23 +1,80 @@
-import React, { lazy } from 'react';
-import { RouteObject } from 'react-router-dom';
+export interface RouteConfig {
+  path: string; // 路由地址
+  redirect?: string; // 重定向
+  componentPath?: string; // 组件地址
+  showInMenu?: boolean; // 是否在菜单显示 默认为false
+  name?: string; // 名称
+  element?: React.JSX.Element;
+  children?: RouteConfig[];
+}
 
-const Home = lazy(() => import('@pages/Home'));
-const About = lazy(() => import('@pages/About'));
-const NotFound = lazy(() => import('@pages/NotFound'));
-
-const routes: RouteObject[] = [
+export const routes: RouteConfig[] = [
   {
     path: '/',
-    element: <Home />,
+    redirect: '/home/index',
+  },
+  {
+    path: '/home',
+    name: '首页',
+    componentPath: 'components/common/PageWrapper',
+    showInMenu: true,
+    children: [
+      {
+        path: '/home/index',
+        name: '首页',
+        componentPath: 'pages/Home',
+      },
+    ],
   },
   {
     path: '/about',
-    element: <About />,
+    name: '关于',
+    componentPath: 'components/common/PageWrapper',
+    showInMenu: true,
+    children: [
+      {
+        path: '/about',
+        redirect: '/about/index',
+      },
+      {
+        path: '/about/index',
+        name: '关于子菜单',
+        componentPath: 'pages/About',
+      },
+    ],
+  },
+  {
+    path: '/dashboard',
+    name: '仪表盘',
+    componentPath: 'components/common/PageWrapper',
+    redirect: '/dashboard/index',
+    showInMenu: true,
+    children: [
+      {
+        path: '/dashboard',
+        redirect: '/dashboard/index',
+      },
+      {
+        path: '/dashboard/index',
+        name: '仪表盘Profile',
+        componentPath: 'pages/Profile',
+      },
+      {
+        path: '/dashboard/settings',
+        name: '仪表盘Settings',
+        componentPath: 'pages/Settings',
+        showInMenu: true,
+      },
+    ],
+  },
+  {
+    path: '/login',
+    componentPath: 'pages/Login',
+    name: 'Login',
   },
   {
     path: '*',
-    element: <NotFound />,
+    componentPath: 'pages/NotFound',
+    name: 'Not Found',
   },
 ];
-
-export default routes;

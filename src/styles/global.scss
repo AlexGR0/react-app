@@ -1,6 +1,6 @@
 :root {
   // 系统主色
-  --main-color: #1890ff !important;
+  --main-color: #c29ff3 !important;
 }
 
 body {
@@ -14,6 +14,26 @@ body {
   -ms-user-select: none;
   user-select: none;
   overflow-wrap: break-word;
+  margin: 0;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  p {
+    margin: 0;
+  }
+  ol,
+  ul,
+  dl {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 $color-blue: #3a99f7;

@@ -1,0 +1,15 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  .breadcrumb-item {
+    color: #666;
+    &.active {
+      color: #999;
+    }
+  }
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: '/';
+    padding: 0 8px;
+    color: #666;
+  }
+}

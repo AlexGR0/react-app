@@ -1,7 +1,7 @@
 {
   "singleQuote": true,
   "trailingComma": "es5",
-  "printWidth": 120,
+  "printWidth": 100,
   "editor.tabSize": 2,
   "semi": true,
   "htmlWhitespaceSensitivity": "css",
