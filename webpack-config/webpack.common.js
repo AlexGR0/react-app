@@ -97,6 +97,11 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+        include: [resolve('src')],
+      },
     ],
   },
   plugins: [

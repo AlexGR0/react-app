@@ -4,3 +4,4 @@ node_modules
 webpack-config
 .husky
 *.d.ts
+src/assets
