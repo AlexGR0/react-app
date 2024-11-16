@@ -8,6 +8,8 @@
     min-height: 100vh;
     display: flex;
     .sliders {
+      display: flex;
+      flex-direction: column;
       position: relative;
       flex-basis: 17%;
       background: var(--main-color);
@@ -20,6 +22,14 @@
         padding: 10px;
         text-align: center;
         border-bottom: 1px solid #ccc;
+        .logo-text{
+          margin-left: 10px;
+        }
+      }
+      .menu {
+        overflow-y: scroll;
+        max-height: 100vh;
+        padding: 6px 0 6px 6px;
       }
     }
     .content {
@@ -33,19 +43,43 @@
         align-items: center;
         justify-content: space-between;
         border-bottom: 1px solid #ccc;
+        .info-box {
+          display: flex;
+          align-items: center;
+          .user {
+            display: flex;
+            align-items: center;
+            margin-right: 12px;
+            position: relative;
+            .name {
+              margin-left: 4px;
+            }
+            &::after {
+              content: '|';
+              position: absolute;
+              right: -8px;
+            }
+          }
+        }
       }
     }
     // 滚动条样式
+    .menu::-webkit-scrollbar,
     .content::-webkit-scrollbar {
-      width: 0.4em;
+      width: 6px;
+    }
+    .menu::-webkit-scrollbar-track {
+      background-color: var(--main-color);
     }
     .content::-webkit-scrollbar-track {
       background: #f1f1f1;
     }
+    .menu::-webkit-scrollbar-thumb,
     .content::-webkit-scrollbar-thumb {
       background-color: #888;
-      border-radius: 0.2em;
+      border-radius: 2px;
     }
+    .menu::-webkit-scrollbar-thumb:hover,
     .content::-webkit-scrollbar-thumb:hover {
       background-color: #555;
     }

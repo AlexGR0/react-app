@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { RouteConfig } from '@routes/index';
-import styles from '@components/common/Breadcrumb/styles.module.scss';
+import styles from '@components/Breadcrumb/styles.module.scss';
 
 interface BreadcrumbProps {
   routes: RouteConfig[];

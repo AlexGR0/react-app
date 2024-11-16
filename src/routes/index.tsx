@@ -17,7 +17,7 @@ export const routes: RouteConfig[] = [
     path: '/home',
     name: '首页',
     componentPath: 'components/common/PageWrapper',
-    showInMenu: true,
+    showInMenu: false,
     children: [
       {
         path: '/home/index',
@@ -30,7 +30,6 @@ export const routes: RouteConfig[] = [
     path: '/about',
     name: '关于',
     componentPath: 'components/common/PageWrapper',
-    showInMenu: true,
     children: [
       {
         path: '/about',
@@ -48,7 +47,6 @@ export const routes: RouteConfig[] = [
     name: '仪表盘',
     componentPath: 'components/common/PageWrapper',
     redirect: '/dashboard/index',
-    showInMenu: true,
     children: [
       {
         path: '/dashboard',
@@ -63,7 +61,6 @@ export const routes: RouteConfig[] = [
         path: '/dashboard/settings',
         name: '仪表盘Settings',
         componentPath: 'pages/Settings',
-        showInMenu: true,
       },
     ],
   },
@@ -71,10 +68,12 @@ export const routes: RouteConfig[] = [
     path: '/login',
     componentPath: 'pages/Login',
     name: 'Login',
+    showInMenu: false,
   },
   {
     path: '*',
     componentPath: 'pages/NotFound',
     name: 'Not Found',
+    showInMenu: false,
   },
 ];

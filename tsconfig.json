@@ -28,5 +28,5 @@
     }
   },
   "include": ["src"],
-  "exclude": ["node_modules", "webpack-config", "dist"]
+  "exclude": ["node_modules", "webpack-config", "dist", "src/assets"]
 }

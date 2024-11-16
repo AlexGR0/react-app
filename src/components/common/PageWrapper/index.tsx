@@ -1,8 +1,11 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import Breadcrumb from '@components/common/Breadcrumb';
+import { Outlet } from 'react-router-dom';
+import Breadcrumb from '@components/Breadcrumb';
+import RatioImage from '@components/common/RatioImage';
+import Menu from '@components/Menu';
 import styles from '@components/common/PageWrapper/styles.module.scss';
 import { routes } from '@routes/index';
+import LogoImg from '@assets/images/logo.png';
 
 const PageWrapper: React.FC = () => {
   return (
@@ -10,30 +13,23 @@ const PageWrapper: React.FC = () => {
       <div className={`${styles['page-container']}`}>
         <div className={`${styles['sliders']}`}>
           <div className={`${styles['logo-box']}`}>
-            <div>img</div>
-            <div>react-template</div>
+            <RatioImage src={LogoImg} round width={30} />
+            <div className={`${styles['logo-text']}`}>react-template</div>
           </div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/about">About</Link>
-              </li>
-              <li>
-                <Link to="/dashboard">Contact</Link>
-              </li>
-              <li>
-                <Link to="/dashboard/settings">settings</Link>
-              </li>
-            </ul>
-          </nav>
+          <div className={`${styles['menu']}`}>
+            <Menu routes={routes} />
+          </div>
         </div>
         <div className={`${styles['content']}`}>
           <header className={`${styles['header']}`}>
             <Breadcrumb routes={routes} />
-            <div>hello，userName</div>
+            <div className={`${styles['info-box']}`}>
+              <div className={`${styles['user']}`}>
+                <RatioImage src="" width={30} round />
+                <div className={`${styles['name']}`}>userName</div>
+              </div>
+              <div>退出登录</div>
+            </div>
           </header>
           <main className={`${styles['main']}`}>
             <Outlet />
