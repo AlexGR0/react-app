@@ -1,4 +1,4 @@
-const { PORT, HOST, PROJECT_PATH } = require('./config');
+const { PROJECT_PATH } = require('./config');
 const webpackCommon = require('./webpack.common');
 const { resolve } = require('path');
 const { merge } = require('webpack-merge');
@@ -9,8 +9,8 @@ module.exports = merge(webpackCommon, {
   plugins: [new ESLintPlugin({ extensions: ['js', 'ts'] })],
   devServer: {
     // https: true,
-    host: HOST,
-    port: PORT,
+    host: '0.0.0.0',
+    port: 8080,
     open: false,
     hot: true,
     compress: true,

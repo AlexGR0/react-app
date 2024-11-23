@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-const { PROJECT_PATH, IS_DEV } = require('./config');
+const { PROJECT_PATH, IS_DEV, IS_DEVSERVER } = require('./config');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -7,13 +7,15 @@ const WebpackBar = require('webpackbar');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
-const isDevServer = process.env.WEBPACK_DEV_SERVER === 'true';
 const commonCssLoader = [
   MiniCssExtractPlugin.loader,
   {
     loader: 'css-loader',
     options: {
       importLoaders: 1,
+      modules: {
+        localIdentName: IS_DEV ? '[path][name]__[local]' : '[hash:base64]',
+      },
     },
   },
   {
@@ -33,8 +35,8 @@ module.exports = {
     path: resolve(PROJECT_PATH, './dist'),
   },
   cache: { type: 'filesystem' },
-  externalsPresets: isDevServer ? {} : { node: true },
-  externals: isDevServer ? [] : [nodeExternals()],
+  externalsPresets: IS_DEVSERVER ? {} : { node: true },
+  externals: IS_DEVSERVER ? [] : [nodeExternals()],
   module: {
     rules: [
       {
