@@ -172,7 +172,7 @@ module.exports = {
       '@components': resolve(PROJECT_PATH, './src/components'),
       '@pages': resolve(PROJECT_PATH, './src/pages'),
       '@routes': resolve(PROJECT_PATH, './src/routes'),
-      '@store': resolve(PROJECT_PATH, './src/store'),
+      '@models': resolve(PROJECT_PATH, './src/models'),
       '@styles': resolve(PROJECT_PATH, './src/styles'),
       '@utils': resolve(PROJECT_PATH, './src/utils'),
     },
