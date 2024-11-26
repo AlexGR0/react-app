@@ -1,23 +1,23 @@
 {
   "id": "4740741",
-  "name": "react-template",
+  "name": "react-admin-template",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
   "description": "",
   "glyphs": [
     {
-      "icon_id": "14732",
-      "name": "向下",
-      "font_class": "arrow-down",
-      "unicode": "e600",
-      "unicode_decimal": 58880
+      "icon_id": "36582156",
+      "name": "栏目展开",
+      "font_class": "lanmuzhankai",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
     },
     {
-      "icon_id": "14733",
-      "name": "向上",
-      "font_class": "arrow-up",
-      "unicode": "e601",
-      "unicode_decimal": 58881
+      "icon_id": "36582157",
+      "name": "栏目收起",
+      "font_class": "lanmushouqi",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
     }
   ]
 }

@@ -6,14 +6,23 @@ interface CommonIconProps {
   size?: number;
   color?: string;
   style?: React.CSSProperties;
+  onClick?: () => void;
 }
 
 const CommonIcon: React.FC<CommonIconProps> = (props) => {
-  const { type, src, size = 16, style = {}, color = '#333' } = props;
+  const { type, src, size = 16, style = {}, color = '#333', onClick } = props;
   if (src) {
-    return <img src={src} alt="icon" style={{ width: size, height: size, ...style }} />;
+    return (
+      <img src={src} alt="icon" style={{ width: size, height: size, ...style }} onClick={onClick} />
+    );
   } else if (type) {
-    return <i className={`iconfont ${type}`} style={{ fontSize: size, color, ...style }}></i>;
+    return (
+      <i
+        className={`iconfont ${type}`}
+        style={{ fontSize: size, color, ...style }}
+        onClick={onClick}
+      ></i>
+    );
   } else {
     return null;
   }

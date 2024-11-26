@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'antd';
 import { RouteConfig } from '@routes/index';
+import { useSelector } from 'react-redux';
 
 interface MenuItem {
   key: string;
@@ -15,6 +16,7 @@ interface AppMenuProps {
 }
 
 const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
+  const { menuCollapsed } = useSelector((state: any) => state.global);
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const location = useLocation();
@@ -74,6 +76,7 @@ const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
 
   return (
     <Menu
+      inlineCollapsed={menuCollapsed}
       mode="inline"
       openKeys={openKeys}
       selectedKeys={selectedKeys}
