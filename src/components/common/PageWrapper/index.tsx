@@ -25,7 +25,7 @@ const PageWrapper: React.FC = () => {
             <Breadcrumb routes={routes} />
             <div className={`${styles['info-box']}`}>
               <div className={`${styles['user']}`}>
-                <RatioImage src="" width={30} round />
+                <RatioImage width={30} round />
                 <div className={`${styles['name']}`}>userName</div>
               </div>
               <div>退出登录</div>

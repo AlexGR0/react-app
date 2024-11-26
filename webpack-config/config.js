@@ -18,4 +18,4 @@ const CONFIG = {
   },
 };
 
-module.exports = CONFIG[NODE_ENV];
+module.exports = CONFIG[NODE_ENV || 'development'];

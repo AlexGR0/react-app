@@ -3,6 +3,7 @@ const { PROJECT_PATH, IS_DEV, IS_DEVSERVER } = require('./config');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
@@ -164,6 +165,12 @@ module.exports = {
         },
       },
     }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify({
+        NODE_ENV: process.env.NODE_ENV,
+        WEBPACK_DEV_SERVER: process.env.WEBPACK_DEV_SERVER,
+      }),
+    }),
   ],
   resolve: {
     alias: {
@@ -177,6 +184,9 @@ module.exports = {
       '@utils': resolve(PROJECT_PATH, './src/utils'),
     },
     extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
+    fallback: {
+      path: require.resolve('path-browserify'),
+    },
   },
   devtool: IS_DEV ? 'eval-cheap-module-source-map' : 'cheap-module-source-map',
 };

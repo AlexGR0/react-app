@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from '@pages/Home/styles.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 

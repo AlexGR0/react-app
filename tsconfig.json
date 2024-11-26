@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
     "allowJs": true,
     "jsx": "react",
     "target": "es5",

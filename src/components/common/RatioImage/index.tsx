@@ -6,7 +6,7 @@ import errImg from '@assets/images/errImg.png';
 import avatar from '@assets/images/avatar.png';
 
 interface RatioImageProps {
-  src: string;
+  src?: string;
   alt?: string;
   width?: number;
   height?: number;

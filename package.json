@@ -16,6 +16,7 @@
   "author": "AlexGR0",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.7",
     "dva": "^2.4.1",
     "dva-core": "^2.0.4",
     "react": "^18.3.1",
@@ -59,6 +60,7 @@
     "mini-css-extract-plugin": "^2.7.6",
     "node-sass": "^9.0.0",
     "ora": "^5.4.1",
+    "path-browserify": "^1.0.1",
     "postcss-loader": "^7.3.1",
     "postcss-preset-env": "^8.4.1",
     "prettier": "^2.8.8",
