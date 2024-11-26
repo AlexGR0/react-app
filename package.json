@@ -16,6 +16,7 @@
   "author": "AlexGR0",
   "license": "ISC",
   "dependencies": {
+    "antd": "^5.22.2",
     "axios": "^1.7.7",
     "dva": "^2.4.1",
     "dva-core": "^2.0.4",
