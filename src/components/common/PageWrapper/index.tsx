@@ -9,14 +9,12 @@ import CommonIcon from '@components/common/CommonIcon';
 import styles from '@components/common/PageWrapper/styles.module.scss';
 import LogoImg from '@assets/images/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
+import { Button } from 'antd';
+import { FormattedMessage } from 'react-intl';
 
 const PageWrapper: React.FC = () => {
-  const { menuCollapsed } = useSelector((state: any) => state.global);
+  const { menuCollapsed, locale } = useSelector((state: any) => state.global);
   const dispatch = useDispatch();
-
-  const handleChangeMenuCollapsedToggle = () => {
-    dispatch({ type: 'global/menuCollapsedToggle' });
-  };
 
   return (
     <div className={`${styles['page-panel']}`}>
@@ -27,7 +25,11 @@ const PageWrapper: React.FC = () => {
         >
           <div className={`${styles['logo-box']}`}>
             <RatioImage src={LogoImg} round width={30} />
-            {!menuCollapsed && <div className={`${styles['logo-text']}`}>react-template</div>}
+            {!menuCollapsed && (
+              <div className={`${styles['logo-text']}`}>
+                <FormattedMessage id="react后台系统模板" />
+              </div>
+            )}
           </div>
           <div className={`${styles['menu']}`}>
             <Menu routes={routes} />
@@ -37,20 +39,21 @@ const PageWrapper: React.FC = () => {
           <header className={`${styles['header']}`}>
             <div className={`${styles['header-left']}`}>
               <CommonIcon
-                onClick={handleChangeMenuCollapsedToggle}
+                onClick={() => dispatch({ type: 'global/menuCollapsedToggle' })}
                 type={`icon-${!menuCollapsed ? 'lanmushouqi' : 'lanmuzhankai'}`}
-                color="#333"
                 size={20}
                 style={{ marginRight: 10, cursor: 'pointer' }}
               />
               <Breadcrumb routes={routes} />
             </div>
             <div className={`${styles['header-right']}`}>
+              <Button
+                onClick={() => dispatch({ type: 'global/localeToggle' })}
+                icon={<CommonIcon type={`icon-language-${locale}`} size={20} />}
+                type="text"
+              />
               <NavDropdown>
-                <div className={`${styles['user']}`}>
-                  <RatioImage width={30} round />
-                  <div className={`${styles['name']}`}>userName</div>
-                </div>
+                <Button icon={<RatioImage width={20} round />} type="text" />
               </NavDropdown>
             </div>
           </header>

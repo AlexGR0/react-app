@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'antd';
 import { RouteConfig } from '@routes/index';
 import { useSelector } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 interface MenuItem {
   key: string;
@@ -58,7 +59,13 @@ const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
         if (showInMenu && componentPath) {
           const menuItem: MenuItem = {
             key: path,
-            label: children ? name : <Link to={path}>{name}</Link>,
+            label: children ? (
+              <FormattedMessage id={name} />
+            ) : (
+              <Link to={path}>
+                <FormattedMessage id={name} />
+              </Link>
+            ),
           };
 
           if (children) {
@@ -84,7 +91,11 @@ const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
       items={[
         {
           key: '/',
-          label: <Link to="/">首页</Link>,
+          label: (
+            <Link to="/">
+              <FormattedMessage id="首页" />
+            </Link>
+          ),
         },
         ...menuItems,
       ]}

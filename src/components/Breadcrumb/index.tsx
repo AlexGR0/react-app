@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { RouteConfig } from '@routes/index';
 import styles from '@components/Breadcrumb/styles.module.scss';
+import { FormattedMessage } from 'react-intl';
 
 interface BreadcrumbProps {
   routes: RouteConfig[];
@@ -30,14 +31,15 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ routes }) => {
 
   const breadcrumbItems = getBreadcrumbItems(location.pathname, routes);
 
-  !isSpecialPaths &&
-    breadcrumbItems.unshift({
-      path: '/',
-      name: '首页',
-    });
-
   return (
     <ol className={`${styles['breadcrumb']}`}>
+      {!isSpecialPaths && (
+        <li key={'/'} className={`${styles['breadcrumb-item']}`}>
+          <Link to={'/'}>
+            <FormattedMessage id="首页" />
+          </Link>
+        </li>
+      )}
       {breadcrumbItems.map((item, index) => (
         <li
           key={item.path}
@@ -46,9 +48,11 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ routes }) => {
           }`}
         >
           {index === breadcrumbItems.length - 1 ? (
-            item.name
+            <FormattedMessage id={item.name} />
           ) : (
-            <Link to={item.path}>{item.name}</Link>
+            <Link to={item.path}>
+              <FormattedMessage id={item.name} />
+            </Link>
           )}
         </li>
       ))}

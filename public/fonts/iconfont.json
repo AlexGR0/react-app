@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2785537",
+      "name": "中英文切换-显示英文",
+      "font_class": "language-en",
+      "unicode": "e709",
+      "unicode_decimal": 59145
+    },
+    {
+      "icon_id": "4186221",
+      "name": "中英文切换-显示中文",
+      "font_class": "language-zh",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
       "icon_id": "20853365",
       "name": "个人中心",
       "font_class": "yonghu",
