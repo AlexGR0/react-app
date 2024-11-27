@@ -53,15 +53,9 @@
           .user {
             display: flex;
             align-items: center;
-            margin-right: 12px;
-            position: relative;
+            cursor: pointer;
             .name {
               margin-left: 4px;
-            }
-            &::after {
-              content: '|';
-              position: absolute;
-              right: -8px;
             }
           }
         }

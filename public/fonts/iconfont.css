@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4740741 */
-  src: url('iconfont.woff2?t=1732632367762') format('woff2'),
-       url('iconfont.woff?t=1732632367762') format('woff'),
-       url('iconfont.ttf?t=1732632367762') format('truetype'),
-       url('iconfont.svg?t=1732632367762#iconfont') format('svg');
+  src: url('iconfont.woff2?t=1732713606949') format('woff2'),
+       url('iconfont.woff?t=1732713606949') format('woff'),
+       url('iconfont.ttf?t=1732713606949') format('truetype'),
+       url('iconfont.svg?t=1732713606949#iconfont') format('svg');
 }
 
 .iconfont {
@@ -12,6 +12,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-yonghu:before {
+  content: "\e6aa";
+}
+
+.icon-tuichu:before {
+  content: "\e651";
 }
 
 .icon-lanmuzhankai:before {

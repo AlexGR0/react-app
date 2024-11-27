@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { routes } from '@routes/index';
 import Menu from '@components/Menu';
 import Breadcrumb from '@components/Breadcrumb';
+import NavDropdown from '@components/NavDropdown';
 import RatioImage from '@components/common/RatioImage';
 import CommonIcon from '@components/common/CommonIcon';
 import styles from '@components/common/PageWrapper/styles.module.scss';
@@ -45,11 +46,12 @@ const PageWrapper: React.FC = () => {
               <Breadcrumb routes={routes} />
             </div>
             <div className={`${styles['header-right']}`}>
-              <div className={`${styles['user']}`}>
-                <RatioImage width={30} round />
-                <div className={`${styles['name']}`}>userName</div>
-              </div>
-              <div>退出登录</div>
+              <NavDropdown>
+                <div className={`${styles['user']}`}>
+                  <RatioImage width={30} round />
+                  <div className={`${styles['name']}`}>userName</div>
+                </div>
+              </NavDropdown>
             </div>
           </header>
           <main className={`${styles['main']}`}>
