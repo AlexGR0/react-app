@@ -1,19 +1,22 @@
 const { resolve } = require('path');
-const { PROJECT_PATH, IS_DEV } = require('./config');
+const { PROJECT_PATH, IS_DEV, IS_DEVSERVER } = require('./config');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
-const isDevServer = process.env.WEBPACK_DEV_SERVER === 'true';
 const commonCssLoader = [
   MiniCssExtractPlugin.loader,
   {
     loader: 'css-loader',
     options: {
       importLoaders: 1,
+      modules: {
+        localIdentName: IS_DEV ? '[path][name]__[local]' : '[hash:base64]',
+      },
     },
   },
   {
@@ -33,8 +36,8 @@ module.exports = {
     path: resolve(PROJECT_PATH, './dist'),
   },
   cache: { type: 'filesystem' },
-  externalsPresets: isDevServer ? {} : { node: true },
-  externals: isDevServer ? [] : [nodeExternals()],
+  externalsPresets: IS_DEVSERVER ? {} : { node: true },
+  externals: IS_DEVSERVER ? [] : [nodeExternals()],
   module: {
     rules: [
       {
@@ -162,6 +165,12 @@ module.exports = {
         },
       },
     }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify({
+        NODE_ENV: process.env.NODE_ENV,
+        WEBPACK_DEV_SERVER: process.env.WEBPACK_DEV_SERVER,
+      }),
+    }),
   ],
   resolve: {
     alias: {
@@ -170,11 +179,14 @@ module.exports = {
       '@components': resolve(PROJECT_PATH, './src/components'),
       '@pages': resolve(PROJECT_PATH, './src/pages'),
       '@routes': resolve(PROJECT_PATH, './src/routes'),
-      '@store': resolve(PROJECT_PATH, './src/store'),
+      '@models': resolve(PROJECT_PATH, './src/models'),
       '@styles': resolve(PROJECT_PATH, './src/styles'),
       '@utils': resolve(PROJECT_PATH, './src/utils'),
     },
     extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
+    fallback: {
+      path: require.resolve('path-browserify'),
+    },
   },
   devtool: IS_DEV ? 'eval-cheap-module-source-map' : 'cheap-module-source-map',
 };

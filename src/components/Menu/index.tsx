@@ -1,98 +1,106 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Menu } from 'antd';
 import { RouteConfig } from '@routes/index';
-import styles from '@components/Menu/styles.module.scss';
-import CommonIcon from '@components/common/CommonIcon';
+import { useSelector } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
-interface MenuProps {
+interface MenuItem {
+  key: string;
+  label: string | React.JSX.Element;
+  icon?: React.ReactNode;
+  children?: MenuItem[];
+}
+
+interface AppMenuProps {
   routes: RouteConfig[];
 }
 
-const Menu: React.FC<MenuProps> = ({ routes }) => {
-  const [openKey, setOpenKey] = useState<string | null>(null);
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
+  const { menuCollapsed } = useSelector((state: any) => state.global);
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const location = useLocation();
 
   useEffect(() => {
-    const findOpenKey = (routes: RouteConfig[], path: string): string | null => {
+    const findOpenKeys = (routes: RouteConfig[], path: string): string[] => {
       for (const route of routes) {
         if (route.path === path) {
-          return route.path;
+          return [route.path];
         }
         if (route.children) {
-          const childOpenKey = findOpenKey(route.children, path);
-          if (childOpenKey) {
-            return route.path;
+          const childOpenKeys = findOpenKeys(route.children, path);
+          if (childOpenKeys.length > 0) {
+            return [route.path, ...childOpenKeys];
           }
         }
       }
-      return null;
+      return [];
     };
 
     const currentPath = location.pathname;
-    const newOpenKey = findOpenKey(routes, currentPath);
-    setOpenKey(newOpenKey);
-    setSelectedKey(currentPath);
+    const newOpenKeys = findOpenKeys(routes, currentPath);
+    setOpenKeys(newOpenKeys.slice(0, 1)); // 只保留第一个父级菜单的键
+    setSelectedKeys([currentPath]);
   }, [location.pathname, routes]);
 
-  const toggleSubMenu = (path: string) => {
-    setOpenKey(openKey === path ? null : path);
+  const onOpenChange = (keys: string[]) => {
+    if (keys.length > 1) {
+      setOpenKeys([keys[keys.length - 1]]); // 只保留最后一个打开的父级菜单的键
+    } else {
+      setOpenKeys(keys);
+    }
   };
 
-  const handleMenuItemClick = (path: string) => {
-    setSelectedKey(path);
-  };
+  const generateMenuItems = (routes: RouteConfig[]): MenuItem[] => {
+    return routes
+      .map((route) => {
+        const { showInMenu = true, children, path, name, componentPath } = route;
+        if (showInMenu && componentPath) {
+          const menuItem: MenuItem = {
+            key: path,
+            label: children ? (
+              <FormattedMessage id={name} />
+            ) : (
+              <Link to={path}>
+                <FormattedMessage id={name} />
+              </Link>
+            ),
+          };
 
-  const renderMenu = (routes: RouteConfig[], level: number = 0) => {
-    return routes.map((route) => {
-      const { showInMenu = true, children, path, name, componentPath } = route;
-      if (showInMenu && componentPath) {
-        if (children) {
-          return (
-            <li key={path} className={styles.parent}>
-              <div
-                onClick={() => toggleSubMenu(path)}
-                style={{ paddingLeft: `${level * 20}px` }}
-                className="flex-ac-between"
-              >
-                <span>{name}</span>
-                <CommonIcon type={`icon-arrow-${openKey === path ? 'up' : 'down'}`} color="#666" />
-              </div>
-              <ul className={`${styles.submenu} ${openKey === path ? styles.open : ''}`}>
-                {renderMenu(children, level + 1)}
-              </ul>
-            </li>
-          );
-        } else {
-          return (
-            <li
-              key={path}
-              style={{ paddingLeft: `${level * 20}px` }}
-              className={selectedKey === path ? styles.selected : ''}
-            >
-              {selectedKey !== path ? (
-                <Link to={path} onClick={() => handleMenuItemClick(path)}>
-                  {name}
-                </Link>
-              ) : (
-                name
-              )}
-            </li>
-          );
+          if (children) {
+            menuItem.children = generateMenuItems(children);
+          }
+
+          return menuItem;
         }
-      }
-      return null;
-    });
+        return null;
+      })
+      .filter(Boolean) as MenuItem[];
   };
+
+  const menuItems = generateMenuItems(routes);
 
   return (
-    <ul className={`${styles.menu}`}>
-      <li>
-        <Link to={'/'}>首页</Link>
-      </li>
-      {renderMenu(routes)}
-    </ul>
+    <Menu
+      inlineCollapsed={menuCollapsed}
+      mode="inline"
+      openKeys={openKeys}
+      selectedKeys={selectedKeys}
+      onOpenChange={onOpenChange}
+      items={[
+        {
+          key: '/',
+          label: (
+            <Link to="/">
+              <FormattedMessage id="首页" />
+            </Link>
+          ),
+        },
+        ...menuItems,
+      ]}
+    />
   );
 };
 
-export default Menu;
+export default AppMenu;
