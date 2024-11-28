@@ -13,7 +13,6 @@ export default {
       return { ...state, locale: state.locale === 'zh' ? 'en' : 'zh' };
     },
     saveMainColor(state, action) {
-      console.log(action, 123213);
       return { ...state, mainColor: action?.payload?.mainColor };
     },
   },

@@ -9,12 +9,15 @@ import CommonIcon from '@components/common/CommonIcon';
 import styles from '@components/common/PageWrapper/styles.module.scss';
 import LogoImg from '@assets/images/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, ColorPicker } from 'antd';
+import { Button, ColorPicker, theme } from 'antd';
 import { FormattedMessage } from 'react-intl';
+
+const { useToken } = theme;
 
 const PageWrapper: React.FC = () => {
   const { menuCollapsed, locale, mainColor } = useSelector((state: any) => state.global);
   const dispatch = useDispatch();
+  const { token } = useToken();
 
   return (
     <div className={`${styles['page-panel']}`}>
@@ -27,7 +30,12 @@ const PageWrapper: React.FC = () => {
             <Link to="/" className={`${styles['logo-box']}`}>
               <RatioImage src={LogoImg} round width={30} />
               {!menuCollapsed && (
-                <div className={`${styles['logo-text']}`}>
+                <div
+                  className={`${styles['logo-text']}`}
+                  style={{
+                    color: token.colorPrimaryText,
+                  }}
+                >
                   <FormattedMessage id="react后台系统模板" />
                 </div>
               )}
@@ -44,6 +52,7 @@ const PageWrapper: React.FC = () => {
                 onClick={() => dispatch({ type: 'global/menuCollapsedToggle' })}
                 type={`icon-${!menuCollapsed ? 'lanmushouqi' : 'lanmuzhankai'}`}
                 size={20}
+                color={token.colorPrimaryText}
                 style={{ marginRight: 10, cursor: 'pointer' }}
               />
               <Breadcrumb routes={routes} />
@@ -58,11 +67,20 @@ const PageWrapper: React.FC = () => {
                   })
                 }
               >
-                <Button icon={<CommonIcon type={`icon-zhuti`} size={20} />} type="text" />
+                <Button
+                  icon={<CommonIcon type={`icon-zhuti`} size={20} color={token.colorPrimaryText} />}
+                  type="text"
+                />
               </ColorPicker>
               <Button
                 onClick={() => dispatch({ type: 'global/localeToggle' })}
-                icon={<CommonIcon type={`icon-language-${locale}`} size={20} />}
+                icon={
+                  <CommonIcon
+                    type={`icon-language-${locale}`}
+                    size={20}
+                    color={token.colorPrimaryText}
+                  />
+                }
                 type="text"
               />
               <NavDropdown>

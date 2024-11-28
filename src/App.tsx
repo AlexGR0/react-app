@@ -16,6 +16,7 @@ const App: React.FC = () => {
       theme={{
         token: {
           colorPrimary: mainColor,
+          colorPrimaryText: '#f9f0ff',
         },
       }}
     >
