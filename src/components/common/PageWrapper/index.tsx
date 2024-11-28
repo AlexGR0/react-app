@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { routes } from '@routes/index';
 import Menu from '@components/Menu';
 import Breadcrumb from '@components/Breadcrumb';
@@ -8,13 +8,20 @@ import RatioImage from '@components/common/RatioImage';
 import CommonIcon from '@components/common/CommonIcon';
 import styles from '@components/common/PageWrapper/styles.module.scss';
 import LogoImg from '@assets/images/logo.png';
-import { useSelector, useDispatch } from 'react-redux';
-import { Button, ColorPicker } from 'antd';
+import { Button, ColorPicker, theme } from 'antd';
+import { connect } from 'react-redux';
+import { GlobalState } from '@/models/global';
 import { FormattedMessage } from 'react-intl';
 
-const PageWrapper: React.FC = () => {
-  const { menuCollapsed, locale, mainColor } = useSelector((state: any) => state.global);
-  const dispatch = useDispatch();
+interface PageWrapperProps extends GlobalState {
+  dispatch: (action: any) => void;
+}
+
+const { useToken } = theme;
+
+const PageWrapper: React.FC<PageWrapperProps> = (props) => {
+  const { mainColor, locale, menuCollapsed, dispatch } = props;
+  const { token } = useToken();
 
   return (
     <div className={`${styles['page-panel']}`}>
@@ -23,13 +30,20 @@ const PageWrapper: React.FC = () => {
           className={`${styles['sliders']}`}
           style={{ flexBasis: menuCollapsed ? 'auto' : '17%' }}
         >
-          <div className={`${styles['logo-box']}`}>
-            <RatioImage src={LogoImg} round width={30} />
-            {!menuCollapsed && (
-              <div className={`${styles['logo-text']}`}>
-                <FormattedMessage id="react后台系统模板" />
-              </div>
-            )}
+          <div>
+            <Link to="/" className={`${styles['logo-box']}`}>
+              <RatioImage src={LogoImg} round width={30} />
+              {!menuCollapsed && (
+                <div
+                  className={`${styles['logo-text']}`}
+                  style={{
+                    color: token.colorPrimaryText,
+                  }}
+                >
+                  <FormattedMessage id="react后台系统模板" />
+                </div>
+              )}
+            </Link>
           </div>
           <div className={`${styles['menu']}`}>
             <Menu routes={routes} />
@@ -42,6 +56,7 @@ const PageWrapper: React.FC = () => {
                 onClick={() => dispatch({ type: 'global/menuCollapsedToggle' })}
                 type={`icon-${!menuCollapsed ? 'lanmushouqi' : 'lanmuzhankai'}`}
                 size={20}
+                color={token.colorPrimaryText}
                 style={{ marginRight: 10, cursor: 'pointer' }}
               />
               <Breadcrumb routes={routes} />
@@ -56,11 +71,20 @@ const PageWrapper: React.FC = () => {
                   })
                 }
               >
-                <Button icon={<CommonIcon type={`icon-zhuti`} size={20} />} type="text" />
+                <Button
+                  icon={<CommonIcon type={`icon-zhuti`} size={20} color={token.colorPrimaryText} />}
+                  type="text"
+                />
               </ColorPicker>
               <Button
                 onClick={() => dispatch({ type: 'global/localeToggle' })}
-                icon={<CommonIcon type={`icon-language-${locale}`} size={20} />}
+                icon={
+                  <CommonIcon
+                    type={`icon-language-${locale}`}
+                    size={20}
+                    color={token.colorPrimaryText}
+                  />
+                }
                 type="text"
               />
               <NavDropdown>
@@ -77,4 +101,8 @@ const PageWrapper: React.FC = () => {
   );
 };
 
-export default PageWrapper;
+export default connect(({ global }: any) => ({
+  mainColor: global.mainColor,
+  locale: global.locale,
+  menuCollapsed: global.menuCollapsed,
+}))(PageWrapper);
