@@ -9,11 +9,11 @@ import CommonIcon from '@components/common/CommonIcon';
 import styles from '@components/common/PageWrapper/styles.module.scss';
 import LogoImg from '@assets/images/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button } from 'antd';
+import { Button, ColorPicker } from 'antd';
 import { FormattedMessage } from 'react-intl';
 
 const PageWrapper: React.FC = () => {
-  const { menuCollapsed, locale } = useSelector((state: any) => state.global);
+  const { menuCollapsed, locale, mainColor } = useSelector((state: any) => state.global);
   const dispatch = useDispatch();
 
   return (
@@ -47,6 +47,17 @@ const PageWrapper: React.FC = () => {
               <Breadcrumb routes={routes} />
             </div>
             <div className={`${styles['header-right']}`}>
+              <ColorPicker
+                value={mainColor}
+                onChangeComplete={(_) =>
+                  dispatch({
+                    type: 'global/changeMainColor',
+                    payload: { mainColor: _.toHexString() },
+                  })
+                }
+              >
+                <Button icon={<CommonIcon type={`icon-zhuti`} size={20} />} type="text" />
+              </ColorPicker>
               <Button
                 onClick={() => dispatch({ type: 'global/localeToggle' })}
                 icon={<CommonIcon type={`icon-language-${locale}`} size={20} />}

@@ -114,6 +114,7 @@ module.exports = {
       ignoreOrder: true,
     }),
     new HtmlWebpackPlugin({
+      title: 'react-admin-template',
       filename: 'index.html',
       template: resolve(PROJECT_PATH, './public/index.html'),
       cache: false,

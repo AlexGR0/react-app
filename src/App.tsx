@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppRouter from '@routes/AppRouter';
 import { IntlProvider } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { ConfigProvider } from 'antd';
 
 const App: React.FC = () => {
-  const { locale } = useSelector((state: any) => state.global);
+  const { locale, mainColor } = useSelector((state: any) => state.global);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--main-color', mainColor);
+  }, [mainColor]);
 
   return (
-    <IntlProvider locale={locale} messages={require(`@/locales/${locale}.json`)}>
-      <AppRouter />
-    </IntlProvider>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: mainColor,
+        },
+      }}
+    >
+      <IntlProvider locale={locale} messages={require(`@/locales/${locale}.json`)}>
+        <AppRouter />
+      </IntlProvider>
+    </ConfigProvider>
   );
 };
 
