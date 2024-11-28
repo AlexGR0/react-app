@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { routes } from '@routes/index';
 import Menu from '@components/Menu';
 import Breadcrumb from '@components/Breadcrumb';
@@ -23,13 +23,15 @@ const PageWrapper: React.FC = () => {
           className={`${styles['sliders']}`}
           style={{ flexBasis: menuCollapsed ? 'auto' : '17%' }}
         >
-          <div className={`${styles['logo-box']}`}>
-            <RatioImage src={LogoImg} round width={30} />
-            {!menuCollapsed && (
-              <div className={`${styles['logo-text']}`}>
-                <FormattedMessage id="react后台系统模板" />
-              </div>
-            )}
+          <div>
+            <Link to="/" className={`${styles['logo-box']}`}>
+              <RatioImage src={LogoImg} round width={30} />
+              {!menuCollapsed && (
+                <div className={`${styles['logo-text']}`}>
+                  <FormattedMessage id="react后台系统模板" />
+                </div>
+              )}
+            </Link>
           </div>
           <div className={`${styles['menu']}`}>
             <Menu routes={routes} />

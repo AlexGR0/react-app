@@ -89,17 +89,7 @@ const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
       selectedKeys={selectedKeys}
       onOpenChange={onOpenChange}
       forceSubMenuRender={false}
-      items={[
-        {
-          key: '/',
-          label: (
-            <Link to="/">
-              <FormattedMessage id="首页" />
-            </Link>
-          ),
-        },
-        ...menuItems,
-      ]}
+      items={menuItems}
     />
   );
 };
