@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'antd';
 import { RouteConfig } from '@routes/index';
@@ -17,7 +17,7 @@ interface AppMenuProps {
 }
 
 const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
-  const { menuCollapsed } = useSelector((state: any) => state.global);
+  const menuCollapsed = useSelector((state: any) => state.global.menuCollapsed);
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const location = useLocation();
@@ -44,13 +44,13 @@ const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
     setSelectedKeys([currentPath]);
   }, [location.pathname, routes]);
 
-  const onOpenChange = (keys: string[]) => {
+  const onOpenChange = useCallback((keys: string[]) => {
     if (keys.length > 1) {
       setOpenKeys([keys[keys.length - 1]]); // 只保留最后一个打开的父级菜单的键
     } else {
       setOpenKeys(keys);
     }
-  };
+  }, []);
 
   const generateMenuItems = (routes: RouteConfig[]): MenuItem[] => {
     return routes
@@ -79,7 +79,7 @@ const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
       .filter(Boolean) as MenuItem[];
   };
 
-  const menuItems = generateMenuItems(routes);
+  const menuItems = useMemo(() => generateMenuItems(routes), [routes]);
 
   return (
     <Menu
@@ -88,6 +88,7 @@ const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
       openKeys={openKeys}
       selectedKeys={selectedKeys}
       onOpenChange={onOpenChange}
+      forceSubMenuRender={false}
       items={[
         {
           key: '/',
@@ -103,4 +104,4 @@ const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
   );
 };
 
-export default AppMenu;
+export default memo(AppMenu);
