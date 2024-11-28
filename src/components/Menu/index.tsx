@@ -2,7 +2,8 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'antd';
 import { RouteConfig } from '@routes/index';
-import { useSelector } from 'react-redux';
+import { connect } from 'react-redux';
+import { GlobalState } from '@/models/global';
 import { FormattedMessage } from 'react-intl';
 
 interface MenuItem {
@@ -12,12 +13,11 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
-interface AppMenuProps {
+interface AppMenuProps extends GlobalState {
   routes: RouteConfig[];
 }
 
-const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
-  const menuCollapsed = useSelector((state: any) => state.global.menuCollapsed);
+const AppMenu: React.FC<AppMenuProps> = ({ routes, menuCollapsed }) => {
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const location = useLocation();
@@ -94,4 +94,6 @@ const AppMenu: React.FC<AppMenuProps> = ({ routes }) => {
   );
 };
 
-export default memo(AppMenu);
+export default connect(({ global }: any) => ({
+  menuCollapsed: global.menuCollapsed,
+}))(memo(AppMenu));

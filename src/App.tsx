@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react';
 import AppRouter from '@routes/AppRouter';
 import { IntlProvider } from 'react-intl';
-import { useSelector } from 'react-redux';
 import { ConfigProvider } from 'antd';
+import { connect } from 'react-redux';
+import { GlobalState } from '@/models/global';
 
-const App: React.FC = () => {
-  const { locale, mainColor } = useSelector((state: any) => state.global);
+interface AppProps extends GlobalState {
+  mainColor: string;
+  locale: string;
+}
+
+const App: React.FC<AppProps> = (props) => {
+  const { mainColor, locale } = props;
 
   useEffect(() => {
     document.documentElement.style.setProperty('--main-color', mainColor);
@@ -27,4 +33,7 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default connect(({ global }: any) => ({
+  mainColor: global.mainColor,
+  locale: global.locale,
+}))(App);

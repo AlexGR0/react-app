@@ -8,15 +8,19 @@ import RatioImage from '@components/common/RatioImage';
 import CommonIcon from '@components/common/CommonIcon';
 import styles from '@components/common/PageWrapper/styles.module.scss';
 import LogoImg from '@assets/images/logo.png';
-import { useSelector, useDispatch } from 'react-redux';
 import { Button, ColorPicker, theme } from 'antd';
+import { connect } from 'react-redux';
+import { GlobalState } from '@/models/global';
 import { FormattedMessage } from 'react-intl';
+
+interface PageWrapperProps extends GlobalState {
+  dispatch: (action: any) => void;
+}
 
 const { useToken } = theme;
 
-const PageWrapper: React.FC = () => {
-  const { menuCollapsed, locale, mainColor } = useSelector((state: any) => state.global);
-  const dispatch = useDispatch();
+const PageWrapper: React.FC<PageWrapperProps> = (props) => {
+  const { mainColor, locale, menuCollapsed, dispatch } = props;
   const { token } = useToken();
 
   return (
@@ -97,4 +101,8 @@ const PageWrapper: React.FC = () => {
   );
 };
 
-export default PageWrapper;
+export default connect(({ global }: any) => ({
+  mainColor: global.mainColor,
+  locale: global.locale,
+  menuCollapsed: global.menuCollapsed,
+}))(PageWrapper);
